@@ -45,10 +45,10 @@ void twai_init_node(void) {
     twai_onchip_node_config_t node_config = {
         .io_cfg.tx = 4,             // TWAI TX GPIO pin
         .io_cfg.rx = 5,             // TWAI RX GPIO pin
-        .bit_timing.bitrate = 200000,  // 200 kbps bitrate
+        .bit_timing.bitrate = 500000,  // 500 kbps bitrate - BMS
         .tx_queue_depth = 5,        // Transmit queue depth set to 5
         .flags = {
-            // enable self testing
+            //to enable self testing: 
             .enable_loopback = 1,
             .enable_self_test = 1,
         }
@@ -60,8 +60,8 @@ void twai_init_node(void) {
     // configure receive filter
     // current setup filters out even IDs
     twai_mask_filter_config_t mfilter_cfg = {
-    .id = 1,    /**< Single base ID for filtering */
-    .mask = 1,      /**< Mask to determine the matching bits (1 = match bit, 0 = any bit) */
+    .id = 0,    /**< Single base ID for filtering */
+    .mask = 0,      /**< Mask to determine the matching bits (1 = match bit, 0 = any bit) */
     .is_ext = true,    // Accept standard and extended IDs
     };
     ESP_ERROR_CHECK(twai_node_config_mask_filter(node_hdl, 0, &mfilter_cfg));   // Configure on filter 0
@@ -100,5 +100,6 @@ esp_err_t twai_transmit(uint32_t id, uint8_t* tx_buff, uint8_t tx_buff_size) {
         .header.dlc = tx_buff_size, //message data length code (ESP32 does not support FD format)
         .buffer = tx_buff,
     };
+
     return twai_node_transmit(node_hdl, &tx_msg, 0);  // Timeout = 0: returns immediately if queue is full
 }
