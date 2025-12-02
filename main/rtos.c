@@ -56,9 +56,7 @@ static void send_messages(void *parameters) {
 static void start_clock(void *parameters) {
     int sec = 0;
     for (;;) {
-        ESP_LOGI(TAG, "--------------------------------------------------");
         ESP_LOGI(TAG, "------------------------ %ds ------------------------", sec);
-        ESP_LOGI(TAG, "--------------------------------------------------");
         sec++;
         vTaskDelay(pdMS_TO_TICKS(1000));
     }

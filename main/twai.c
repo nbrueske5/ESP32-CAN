@@ -32,7 +32,9 @@ static bool twai_rx_cb(twai_node_handle_t handle, const twai_rx_done_event_data_
             .data_length_code = rx_frame.header.dlc,
         };
         memcpy(msg.data, recv_buff, rx_frame.header.dlc);
-        xQueueSendFromISR(rxQueue_hdl, &msg, &xHigherPriorityTaskWoken);
+        if (xQueueSendFromISR(rxQueue_hdl, &msg, &xHigherPriorityTaskWoken) != pdTRUE) {
+            //TODO: Queue was full
+        }
     }
     return xHigherPriorityTaskWoken;
 }
@@ -49,8 +51,8 @@ void twai_init_node(void) {
         .tx_queue_depth = 5,        // Transmit queue depth set to 5
         .flags = {
             //to enable self testing: 
-            .enable_loopback = 1,
-            .enable_self_test = 1,
+            //.enable_loopback = 1,
+            //.enable_self_test = 1,
         }
     };
 
@@ -62,7 +64,7 @@ void twai_init_node(void) {
     twai_mask_filter_config_t mfilter_cfg = {
     .id = 0,    /**< Single base ID for filtering */
     .mask = 0,      /**< Mask to determine the matching bits (1 = match bit, 0 = any bit) */
-    .is_ext = true,    // Accept standard and extended IDs
+    .is_ext = false,    // Only use Standard ID
     };
     ESP_ERROR_CHECK(twai_node_config_mask_filter(node_hdl, 0, &mfilter_cfg));   // Configure on filter 0
 

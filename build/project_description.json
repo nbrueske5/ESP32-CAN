@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "ESP32_Twai_Testing",
-    "project_version":    "d79e706-dirty",
+    "project_version":    "23c72ea-dirty",
     "project_path":       "C:/Users/Noah/WisconsinRacing/ESP32_Testing/ESP32_Twai_Testing",
     "idf_path":           "C:/Users/Noah/esp/v5.5.1/esp-idf",
     "build_dir":          "C:/Users/Noah/WisconsinRacing/ESP32_Testing/ESP32_Twai_Testing/build",

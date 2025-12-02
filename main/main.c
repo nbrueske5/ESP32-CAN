@@ -4,7 +4,7 @@
 
 void app_main(void) {
     twai_init_node();
-    //rtos_init_clock();
+    rtos_init_clock();
     rtos_init_RXPrinting();
 
     uint8_t msg[] = {1, 0, 4};
