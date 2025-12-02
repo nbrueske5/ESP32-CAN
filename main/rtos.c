@@ -24,6 +24,7 @@ static void printRXData(void *parameters) {
     uint8_t message[8] = {0};
     for(;;) {
         if (xQueueReceive(rxQueue_hdl, &message_frame, pdMS_TO_TICKS(100)) == pdTRUE) {
+            printf("Message received");
             ESP_LOGI(TAG, "ID: %d, DLC: %d, message: ", message_frame.identifier, message_frame.data_length_code);
             // store message in
             if (message_frame.data_length_code > 0) {
